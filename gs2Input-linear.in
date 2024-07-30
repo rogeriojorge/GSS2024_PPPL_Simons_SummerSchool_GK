@@ -1,0 +1,125 @@
+
+&parameters
+ beta = 0.0 ! Ratio of particle to magnetic pressure (reference Beta, not total beta):  beta=n_0 T_0 /( B^2 / (8 pi))
+ zeff = 1.0 ! Effective ionic charge.
+/
+
+&kt_grids_knobs
+ grid_option = "range" ! The general layout of the perpendicular grid.
+/
+
+&kt_grids_single_parameters
+ aky = 1.0
+/
+
+&kt_grids_range_parameters
+ aky_min = 0.4
+ aky_max = 5.0
+ naky = 4
+ kyspacing_option='exponential'
+/
+
+&theta_grid_knobs
+ equilibrium_option = "file"
+/
+
+&theta_grid_file_knobs
+ gridout_file = "grid.out"
+/
+
+&le_grids_knobs
+ ngauss = 3 ! Number of untrapped pitch-angles moving in one direction along field line.
+ negrid = 10 ! Total number of energy grid points
+/
+
+&dist_fn_knobs
+ gridfac = 1.0 ! Affects boundary condition at end of theta grid.
+ omprimfac = 1.0 
+ boundary_option = "linked" ! Sets the boundary condition along the field line (i.e. the boundary conditions at theta = +- pi).
+ adiabatic_option = "iphi00=2" ! The form of the adiabatic response (if a species is being modeled as adiabatic).
+ g_exb = 0.0 
+ nonad_zero = .true. ! If true switches on new parallel boundary condition where h=0 at incoming boundary instead of g=0.
+/
+
+&fields_knobs
+ field_option = "implicit" ! Controls which time-advance algorithm is used for the linear terms.
+/
+
+&knobs
+ wstar_units = .false. ! For linear runs only. Evolves each k_y with a different timestep.
+ fphi = 1.0 ! Multiplies Phi (electrostatic potential).
+ fapar = 0.0 ! Multiplies A_par. Use 1 for finite beta (electromagnetic), 0 otherwise (electrostatic)
+ faperp = 0.0 ! Multiplies A_perp. Use 1 for high beta, 0 otherwise. Deprecated: use fbpar instead
+ delt = 0.4 ! Time step
+ nstep = 150 ! Maximum number of timesteps
+/
+
+&reinit_knobs
+ delt_adj = 2.0 ! When the time step needs to be changed, it is adjusted 
+ delt_minimum = 1.0e-06 ! The minimum time step is delt_minimum.
+/
+
+&collisions_knobs
+ collision_model = "none" ! Collision model used in the simulation. Options: 'default', 'none', 'lorentz', 'ediffuse'
+/
+
+&nonlinear_terms_knobs
+ nonlinear_mode = "off" ! Include nonlinear terms? ('on','off')
+ cfl = 0.5 ! The maximum delt < cfl * min(Delta_perp/v_perp)
+/
+
+&species_knobs
+ nspec = 1 ! Number of kinetic species evolved.
+/
+
+&species_parameters_1
+ z = 1.0 ! Charge
+ mass = 1.0 ! Mass
+ dens = 1.0 ! Density	
+ temp = 1.0 ! Temperature
+ tprim = 3.0 ! -1/T (dT/drho)
+ fprim = 1.0 ! -1/n (dn/drho)
+ uprim = 0.0 ! ?
+ vnewk = 0.01 ! collisionality parameter
+ type = "ion" ! Type of species, e.g. 'ion', 'electron', 'beam'
+/
+
+&dist_fn_species_knobs_1
+ fexpr = 0.48 ! Temporal implicitness parameter. Recommended value: 0.48
+ bakdif = 0.05 ! Spatial implicitness parameter. Recommended value: 0.05
+/
+
+&init_g_knobs
+ chop_side = .false. ! Rarely needed. Forces asymmetry into initial condition.
+ phiinit = 0.001 ! Average amplitude of initial perturbation of each Fourier mode.
+ ginit_option = "default" ! Sets the way that the distribution function is initialized.
+ constant_random_flag = .true. ! Uses gs2 internal psuedo-random numbers to ensure the same noise is produced on all systems
+/
+
+&gs2_diagnostics_knobs
+ print_flux_line = .F. ! Instantaneous fluxes output to screen
+ write_nl_flux = .true. ! Write nonlinear fluxes as a function of time.
+ print_line = .true. ! Estimated frequencies and growth rates to the screen/stdout
+ write_verr = .true. ! Write velocity space diagnostics to '.lpc' and '.verr' files
+ write_line = .false. ! If (write_ascii = T) write estimated frequencies and growth rates to the output file
+ write_hrate = .false. ! Write heating rate, collisonal entropy generation etc to '.heat'
+ write_avg_moments = .F. ! Write flux surface averaged low-order moments of g to runname.out.nc and runname.moments (if write_ascii = T)
+ write_omega = .false. ! If (write_ascii = T) instantaneous omega to output file. Very heavy output
+ write_omavg = .false. ! If (write_ascii = T) time-averaged growth rate and frequency to the output file.
+ write_eigenfunc = .true. ! If (write_ascii = T) Normalized phi written to runname.eigenfunc
+ write_final_fields = .true. ! If (write_ascii = T) Phi(theta) written to '.fields'
+ write_final_moments = .true. ! write final n, T
+ nsave = 100 ! Write restart files every nsave timesteps
+ nwrite = 10 ! Output diagnostic data every nwrite
+ navg = 10 ! Any time averages performed over navg
+ omegatol = -0.001 ! The convergence has to be better than one part in 1/omegatol
+ omegatinst = 500.0 ! Recommended value: 500.
+ save_for_restart = .false. ! Write restart files.
+ write_phi_over_time = .false. ! Write entire Phi field to NetCDF file every nwrite.
+/
+
+&general_f0_parameters
+ alpha_f0 = "analytic" ! Form of the alpha equilibrium distribution function: "maxwellian", "analytic" or "external"
+ energy_0 = 0.01 ! Lower limit of F_alpha for : F_alpha(energy_0)=0.
+/
+
