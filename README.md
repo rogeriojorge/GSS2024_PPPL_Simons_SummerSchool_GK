@@ -17,3 +17,5 @@ The code will create figures in a newly created `output` folder.
 
 The GS2 executable location should be added in the `main.py` file, at the following line:
 `gs2_executable = f'{home_directory}/local/gs2/bin/gs2'`
+
+A Mathematica notebook is added to show how to easily check the simulation output parameters.
