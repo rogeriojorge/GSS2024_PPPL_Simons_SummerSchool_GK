@@ -8,6 +8,13 @@
  grid_option = "range" ! The general layout of the perpendicular grid.
 /
 
+&kt_grids_box_parameters
+ ny = 48
+ nx = 6
+ y0 = 5.0 ! set box size in y as Ly = 2 pi y0
+ jtwist = 1 ! set box size in x as Lx = Ly jtwist / 2 pi shat
+/
+
 &kt_grids_single_parameters
  aky = 1.0
 /
@@ -64,7 +71,7 @@
 /
 
 &nonlinear_terms_knobs
- nonlinear_mode = "off" ! Include nonlinear terms? ('on','off')
+ nonlinear_mode = "off" ! Include nonlinear terms? ("on","off")
  cfl = 0.5 ! The maximum delt < cfl * min(Delta_perp/v_perp)
 /
 

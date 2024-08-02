@@ -28,6 +28,7 @@ this_path = Path(__file__).parent.resolve()
 ## where type 1 is HSX, type 2 is W7-X, type 3 is QI, type 4 is QH, type 5 is QA
 ######## INPUT PARAMETERS ########
 run_vmecPlot2 = True
+run_nonlinear = False
 home_directory = os.path.expanduser("~")
 gs2_executable = f'{home_directory}/local/gs2/bin/gs2'
 results_folder = 'output'
@@ -79,9 +80,16 @@ def run_gs2(ln, lt, show_fig=True, save_fig=True):
     replace(gs2_input_file,' naky = 4',f' naky = {PARAMS["naky"]}')
     replace(gs2_input_file,' vnewk = 0.01 ! collisionality parameter',f' vnewk = {PARAMS["vnewk"]} ! collisionality parameter')
     replace(gs2_input_file,' ngauss = 3 ! Number of untrapped pitch-angles moving in one direction along field line.',
-        f' ngauss = {PARAMS["ngauss"]} ! Number of untrapped pitch-angles moving in one direction along field line.')
+         f' ngauss = {PARAMS["ngauss"]} ! Number of untrapped pitch-angles moving in one direction along field line.')
     replace(gs2_input_file,' negrid = 10 ! Total number of energy grid points',
-        f' negrid = {PARAMS["negrid"]} ! Total number of energy grid points')
+          f' negrid = {PARAMS["negrid"]} ! Total number of energy grid points')
+    if run_nonlinear:
+        replace(gs2_input_file,' nonlinear_mode = "off" ! Include nonlinear terms? ("on","off")',
+                              f' nonlinear_mode = "on"  ! Include nonlinear terms? ("on","off")')
+        replace(gs2_input_file, 'grid_option = "range" ! The general layout of the perpendicular grid.',
+                                'grid_option = "box" ! The general layout of the perpendicular grid.')
+        replace(gs2_input_file,' ny = 48',f' ny = {3*PARAMS["naky"]}')
+        # replace(gs2_input_file,' nx = 48',f' nx = {PARAMS["naky"]}')
     bashCommand = f"{gs2_executable} {gs2_input_file}"
     p = subprocess.Popen(bashCommand.split(),stderr=subprocess.STDOUT)#,stdout=subprocess.DEVNULL)#stdout=fp)
     p.wait()

@@ -230,7 +230,7 @@ def remove_files():
     ## THIS SHOULD ONLY REMOVE FILES STARTING WTH .gs2
     for f in glob.glob('.gs2*'): remove(f)
     ## REMOVE ALSO INPUT FILES
-    for f in glob.glob('*.in'): remove(f)
+    # for f in glob.glob('*.in'): remove(f)
     ## REMOVE ALSO OUTPUT FILES
-    for f in glob.glob('*.out.nc'):
-        if f not in 'gs2Input-LN1.0-LT3.0.out.nc': remove(f)
+    # for f in glob.glob('*.out.nc'):
+    #     if f not in 'gs2Input-LN1.0-LT3.0.out.nc': remove(f)
