@@ -27,7 +27,8 @@ this_path = Path(__file__).parent.resolve()
 ## python3 run_gs2.py --type 2
 ## where type 1 is HSX, type 2 is W7-X, type 3 is QI, type 4 is QH, type 5 is QA
 ######## INPUT PARAMETERS ########
-run_vmecPlot2 = True
+run_vmecPlot2 = False
+run_GS2 = True
 run_nonlinear = False
 home_directory = os.path.expanduser("~")
 gs2_executable = f'{home_directory}/local/gs2/bin/gs2'
@@ -105,7 +106,7 @@ print(f'#######################')
 print('Starting GS2 run')
 print(f'#######################')
 start_time = time()
-growth_rate, omega, ky, weighted_growth_rate = run_gs2(PARAMS['LN'],PARAMS['LT'])
+if run_GS2: growth_rate, omega, ky, weighted_growth_rate = run_gs2(PARAMS['LN'],PARAMS['LT'])
 print(f'#######################')
 print(f'Running GS2 took {time()-start_time}s')
 
